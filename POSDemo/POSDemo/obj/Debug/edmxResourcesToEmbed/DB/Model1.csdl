@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="POSTutModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Company" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="isActive" Type="Boolean" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SalesBills" Relationship="POSTutModel.FK_SalesBill_Customer" FromRole="Customer" ToRole="SalesBill" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryId" Type="Int32" />
+    <NavigationProperty Name="Category" Relationship="POSTutModel.FK_Product_Category" FromRole="Product" ToRole="Category" />
+    <NavigationProperty Name="SalesBillDetails" Relationship="POSTutModel.FK_SalesBillDetails_Product" FromRole="Product" ToRole="SalesBillDetail" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Company" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="isActive" Type="Boolean" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SalesBills" Relationship="POSTutModel.FK_SalesBill_Users" FromRole="User" ToRole="SalesBill" />
+  </EntityType>
+  <EntityContainer Name="POSTutEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="Categories" EntityType="POSTutModel.Category" />
+    <AssociationSet Name="FK_Product_Category" Association="POSTutModel.FK_Product_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <EntitySet Name="SalesBills" EntityType="POSTutModel.SalesBill" />
+    <EntitySet Name="SalesBillDetails" EntityType="POSTutModel.SalesBillDetail" />
+    <EntitySet Name="sysdiagrams" EntityType="POSTutModel.sysdiagram" />
+    <AssociationSet Name="FK_SalesBillDetails_SalesBill" Association="POSTutModel.FK_SalesBillDetails_SalesBill">
+      <End Role="SalesBill" EntitySet="SalesBills" />
+      <End Role="SalesBillDetail" EntitySet="SalesBillDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SalesBill_Customer" Association="POSTutModel.FK_SalesBill_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="SalesBill" EntitySet="SalesBills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SalesBill_Users" Association="POSTutModel.FK_SalesBill_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="SalesBill" EntitySet="SalesBills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SalesBillDetails_Product" Association="POSTutModel.FK_SalesBillDetails_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="SalesBillDetail" EntitySet="SalesBillDetails" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="POSTutModel.FK_Product_Category" FromRole="Category" ToRole="Product" />
+  </EntityType>
+  <Association Name="FK_Product_Category">
+    <End Type="POSTutModel.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="POSTutModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SalesBill">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Customerid" Type="Int32" />
+    <Property Name="Total" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="discount" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="TotalAfterDiscount" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="SalesBillDetails" Relationship="POSTutModel.FK_SalesBillDetails_SalesBill" FromRole="SalesBill" ToRole="SalesBillDetail" />
+    <NavigationProperty Name="Customer" Relationship="POSTutModel.FK_SalesBill_Customer" FromRole="SalesBill" ToRole="Customer" />
+    <Property Name="UserId" Type="Int32" />
+    <NavigationProperty Name="User" Relationship="POSTutModel.FK_SalesBill_Users" FromRole="SalesBill" ToRole="User" />
+  </EntityType>
+  <EntityType Name="SalesBillDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Productid" Type="Int32" />
+    <Property Name="SalesBillid" Type="Int32" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="quantity" Type="Int32" />
+    <Property Name="totalPrice" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="SalesBill" Relationship="POSTutModel.FK_SalesBillDetails_SalesBill" FromRole="SalesBillDetail" ToRole="SalesBill" />
+    <NavigationProperty Name="Product" Relationship="POSTutModel.FK_SalesBillDetails_Product" FromRole="SalesBillDetail" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_SalesBillDetails_SalesBill">
+    <End Type="POSTutModel.SalesBill" Role="SalesBill" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="POSTutModel.SalesBillDetail" Role="SalesBillDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesBill">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesBillDetail">
+        <PropertyRef Name="SalesBillid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SalesBill_Customer">
+    <End Type="POSTutModel.Customer" Role="Customer" Multiplicity="0..1" />
+    <End Type="POSTutModel.SalesBill" Role="SalesBill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesBill">
+        <PropertyRef Name="Customerid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SalesBill_Users">
+    <End Type="POSTutModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="POSTutModel.SalesBill" Role="SalesBill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="SalesBill">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SalesBillDetails_Product">
+    <End Type="POSTutModel.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="POSTutModel.SalesBillDetail" Role="SalesBillDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="SalesBillDetail">
+        <PropertyRef Name="Productid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
